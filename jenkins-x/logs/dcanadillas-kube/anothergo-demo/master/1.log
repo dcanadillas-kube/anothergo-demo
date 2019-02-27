@@ -1,0 +1,154 @@
+Step: build-step-credential-initializer:
+
+{"level":"warn","ts":1551310990.3303018,"logger":"fallback-logger","caller":"logging/config.go:65","msg":"Fetch GitHub commit ID from kodata failed: \"ref: refs/heads/test\" is not a valid GitHub commit ID"}
+{"level":"info","ts":1551310990.331092,"logger":"fallback-logger","caller":"creds-init/main.go:40","msg":"Credentials initialized."}
+Step: build-step-git-source-0:
+
+{"level":"warn","ts":1551310991.6956625,"logger":"fallback-logger","caller":"logging/config.go:65","msg":"Fetch GitHub commit ID from kodata failed: \"ref: refs/heads/test\" is not a valid GitHub commit ID"}
+{"level":"info","ts":1551310992.3461235,"logger":"fallback-logger","caller":"git-init/main.go:92","msg":"Successfully cloned \"https://github.com/dcanadillas-kube/anothergo-demo.git\" @ \"master\" in path \"/workspace\""}
+Step: build-step-jenkins:
+
+Picked up _JAVA_OPTIONS: -Xmx400m
+Started
+Running in Durability level: PERFORMANCE_OPTIMIZED
+  21.557 [id=25]	WARNING	i.f.k.c.i.VersionUsageUtils#alert: The client is using resource type 'customresourcedefinitions' with unstable version 'v1beta1'
+[Pipeline] node
+Running on Jenkins in /tmp/jenkinsTests.tmp/jenkins7509393157722289590test/workspace/job
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withCredentials
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (CI Build and push snapshot)
+Stage "CI Build and push snapshot" skipped due to when conditional
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Release)
+[Pipeline] dir
+Running in /home/jenkins/go/src/github.com/dcanadillas-kube/anothergo-demo
+[Pipeline] {
+[Pipeline] git
+Cloning the remote Git repository
+Cloning repository https://github.com/dcanadillas-kube/anothergo-demo.git
+ > git init /home/jenkins/go/src/github.com/dcanadillas-kube/anothergo-demo # timeout=10
+Fetching upstream changes from https://github.com/dcanadillas-kube/anothergo-demo.git
+ > git --version # timeout=10
+ > git fetch --tags --progress https://github.com/dcanadillas-kube/anothergo-demo.git +refs/heads/*:refs/remotes/origin/*
+ > git config remote.origin.url https://github.com/dcanadillas-kube/anothergo-demo.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://github.com/dcanadillas-kube/anothergo-demo.git # timeout=10
+Fetching upstream changes from https://github.com/dcanadillas-kube/anothergo-demo.git
+ > git fetch --tags --progress https://github.com/dcanadillas-kube/anothergo-demo.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 1946758900c420a5f99ec93da8b4f8279b95b8f4 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 1946758900c420a5f99ec93da8b4f8279b95b8f4
+ > git branch -a -v --no-abbrev # timeout=10
+ > git checkout -b master 1946758900c420a5f99ec93da8b4f8279b95b8f4
+Commit message: "Draft create"
+First time build. Skipping changelog.
+[Pipeline] sh
++ jx-release-version
++ echo 0.0.1
+[Pipeline] sh
++ cat VERSION
++ jx step tag --version 0.0.1
+Tag v0.0.1 created and pushed to remote origin
+[Pipeline] sh
++ make build
+CGO_ENABLED=0 GO15VENDOREXPERIMENT=1 go build -ldflags '' -o bin/anothergo-demo main.go
+[Pipeline] sh
++ cat VERSION
++ export VERSION=0.0.1
++ skaffold build -f skaffold.yaml
+time="2019-02-27T23:44:14Z" level=warning msg="config version (skaffold/v1beta2) out of date: upgrading to latest (skaffold/v1beta3)"
+Starting build...
+Building [changeme]...
+Sending build context to Docker daemon  525.8kBSending build context to Docker daemon  6.096MBSending build context to Docker daemon  6.502MB
+Step 1/4 : FROM scratch
+ ---> 
+Step 2/4 : EXPOSE 8080
+ ---> Using cache
+ ---> 5ad9874ab42e
+Step 3/4 : ENTRYPOINT /anothergo-demo
+ ---> Running in d920ed0765bd
+ ---> b8f10ea10088
+Step 4/4 : COPY ./bin/ /
+ ---> c887570f959b
+Successfully built c887570f959b
+The push refers to a repository [10.27.243.11:5000/dcanadillas-kube/anothergo-demo]
+de54240f7874: Preparing
+de54240f7874: Pushed
+0.0.1: digest: sha256:e7393bd08efb2a70771010218c526ffc516e701be2343a2d4daa345c0a97de1e size: 528
+Build complete in 1.618471552s
+Starting test...
+Test complete in 8.209µs
+changeme -> 10.27.243.11:5000/dcanadillas-kube/anothergo-demo:0.0.1
+There is a new version (0.23.0) of skaffold available. Download it at https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+
+[Pipeline] sh
++ cat VERSION
++ jx step post build --image 10.27.243.11:5000/dcanadillas-kube/anothergo-demo:0.0.1
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Promote to Environments)
+[Pipeline] dir
+Running in /home/jenkins/go/src/github.com/dcanadillas-kube/anothergo-demo/charts/anothergo-demo
+[Pipeline] {
+[Pipeline] sh
++ cat ../../VERSION
++ jx step changelog --version v0.0.1
+Using batch mode as inside a pipeline
+Generating change log from git ref 1946758900c420a5f99ec93da8b4f8279b95b8f4 => 87d43bacbfd442f8966894c28a921bbd5c6d5bad
+Failed to enrich commits with issues: User.jenkins.io "" is invalid: metadata.name: Required value: name or generateName is required
+Failed to enrich commits with issues: User.jenkins.io "" is invalid: metadata.name: Required value: name or generateName is required
+Finding issues in commit messages using git format
+No release found for dcanadillas-kube/anothergo-demo and tag v0.0.1 so creating a new release
+Updated the release information at https://github.com/dcanadillas-kube/anothergo-demo/releases/tag/v0.0.1
+generated: /home/jenkins/go/src/github.com/dcanadillas-kube/anothergo-demo/charts/anothergo-demo/templates/release.yaml
+Created Release anothergo-demo-0-0-1 resource in namespace jx
+Updating PipelineActivity dcanadillas-kube-anothergo-demo-master-1 with version 0.0.1
+Updated PipelineActivities dcanadillas-kube-anothergo-demo-master-1 with release notes URL: https://github.com/dcanadillas-kube/anothergo-demo/releases/tag/v0.0.1
+[Pipeline] sh
++ jx step helm release
+No $CHART_REPOSITORY defined so using the default value of: http://jenkins-x-chartmuseum:8080
+Adding missing Helm repo: jenkins-x http://chartmuseum.jenkins-x.io
+Successfully added Helm repository jenkins-x.
+Adding missing Helm repo: releases http://jenkins-x-chartmuseum:8080
+Successfully added Helm repository releases.
+No $CHART_REPOSITORY defined so using the default value of: http://jenkins-x-chartmuseum:8080
+Uploading chart file anothergo-demo-0.0.1.tgz to http://jenkins-x-chartmuseum:8080/api/charts
+Received 201 response: {"saved":true}
+[Pipeline] sh
++ cat ../../VERSION
++ jx promote -b --all-auto --timeout 1h --version 0.0.1
+prow based install so skip waiting for the merge of Pull Requests to go green as currently there is an issue with gettingstatuses from the PR, see https://github.com/jenkins-x/jx/issues/2410
+Promoting app anothergo-demo version 0.0.1 to namespace jx-staging
+Created Pull Request: https://github.com/dcanadillas-kube/environment-serverless-dc-staging/pull/4
+
+Pull Request https://github.com/dcanadillas-kube/environment-serverless-dc-staging/pull/4 is merged at sha 698421dec0866491a2fbcb4f874e0df2fabe96b4
+Pull Request merged but we are not waiting for the update pipeline to complete!
+Could not find the service URL in namespace jx-staging for names anothergo-demo, jx-anothergo-demo, jx-staging-anothergo-demo
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
